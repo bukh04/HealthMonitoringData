@@ -1,5 +1,5 @@
 using Application.Services;
-using HealthMonitoringData.Data;
+using Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +8,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<SiteService>();
 builder.Services.AddScoped<IncidentService>();
+builder.Services.AddScoped<MonitoringService>();
+
 
 builder.Services.AddDbContext<AppDBContext>(options =>
 	options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

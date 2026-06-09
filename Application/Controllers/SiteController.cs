@@ -1,5 +1,5 @@
 ﻿using Application.Services;
-using Entities.Models;
+using Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers

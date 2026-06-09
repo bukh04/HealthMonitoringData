@@ -1,5 +1,4 @@
-﻿
-namespace Entities.Models
+﻿namespace Data.Models
 {
 	public class IncidentAudit
 	{

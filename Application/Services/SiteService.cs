@@ -1,5 +1,5 @@
-﻿using Entities.Models;
-using HealthMonitoringData.Data;
+﻿using Data;
+using Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
