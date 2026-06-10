@@ -1,5 +1,7 @@
 <Solution>
-  <Project Path="Application/Application.csproj" />
-  <Project Path="Entities/Data.csproj" Id="6ba27127-69f9-483c-bdce-053ebfa7baaf" />
+  <Project Path="Application/Application.csproj">
+    <BuildDependency Project="Data/Data.csproj" />
+  </Project>
+  <Project Path="Data/Data.csproj" />
   <Project Path="Worker/Worker.csproj" Id="585476ea-ac45-4e38-a7b4-0dd0334f9a3a" />
 </Solution>

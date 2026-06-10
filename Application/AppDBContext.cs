@@ -1,7 +1,7 @@
 ﻿using Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data
+namespace Application
 {
 	public class AppDBContext: DbContext
 	{

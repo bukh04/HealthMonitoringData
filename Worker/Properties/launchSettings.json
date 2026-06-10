@@ -4,9 +4,11 @@
     "Worker": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Development"
-      }
+        "environmentVariables": {
+            "DOTNET_ENVIRONMENT": "Development",
+            "JOB": "process-monitoring",
+            "JOB_INTERVAL_SEC": "60"
+        }
     }
   }
 }

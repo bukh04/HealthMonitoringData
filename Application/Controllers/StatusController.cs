@@ -1,4 +1,4 @@
-﻿using Data;
+﻿using Application;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthMonitoringData.Controllers

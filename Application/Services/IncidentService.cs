@@ -1,5 +1,4 @@
-﻿using Data;
-using Data.Models;
+﻿using Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
@@ -15,7 +14,13 @@ namespace Application.Services
 
 		public async Task<List<IncidentAudit>> GetAllIncidents()
 		{
-			return await _dbContext.IncidentAudit.ToListAsync();
+			return await _dbContext.IncidentAudit.Include(x => x.Site).ToListAsync();
+		}
+
+		public async Task AddIncident(IncidentAudit incident)
+		{
+			_dbContext.IncidentAudit.Add(incident);
+			await _dbContext.SaveChangesAsync();
 		}
 	}
 }

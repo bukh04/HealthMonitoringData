@@ -34,5 +34,11 @@ namespace Application.Services
 			await _dbContext.SaveChangesAsync();
 			return site;
 		}
+
+		public async Task UpdateSite(Site site)
+		{
+			_dbContext.Site.Update(site);
+			await _dbContext.SaveChangesAsync();
+		}
 	}
 }
