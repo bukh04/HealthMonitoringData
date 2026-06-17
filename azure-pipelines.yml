@@ -29,3 +29,17 @@ stages:
         repository: 'health-monitoring-api'
         tags: |
           $(tag)
+    - task: CopyFiles@2
+      displayName: Copy Kubernetes manifests
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/Application'
+        Contents: |
+          *.yaml
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/k8s'
+
+    - task: PublishBuildArtifacts@1
+      displayName: Publish drop artifact
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
