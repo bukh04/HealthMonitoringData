@@ -1,0 +1,41 @@
+#####################
+# Build environment #
+#####################
+ARG DOTNET_VERSION=""
+
+FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-alpine AS build-env
+
+ARG NUGET_READER_TOKEN=""
+
+WORKDIR /app
+
+# Copy csproj and restore as distinct layers
+COPY Api/*.csproj ./Api/
+COPY Application/*.csproj ./Application/
+COPY Domain/*.csproj ./Domain/
+COPY Infrastructure/*.csproj ./Infrastructure/
+RUN dotnet restore "./Api/Api.csproj"
+
+COPY . .
+
+# Publish the app and its dependencies for deployment
+RUN dotnet publish "./Api/Api.csproj" -c Release -o out
+
+#################
+# Build runtime #
+#################
+FROM mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-alpine
+
+WORKDIR /app
+
+COPY --from=build-env /app/out .
+
+# Upgrade linux musl
+RUN apk upgrade musl
+# Install icu-libs
+RUN apk add --no-cache icu-libs
+
+# Access to cultural data
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+
+ENTRYPOINT ["./Api"]
