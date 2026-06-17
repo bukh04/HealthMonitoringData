@@ -21,9 +21,11 @@ stages:
       vmImage: ubuntu-latest
     steps:
     - task: Docker@2
-      displayName: Build an image
+      displayName: Build API image
       inputs:
         command: build
-        dockerfile: '$(Build.SourcesDirectory)/Application/Dockerfile'
+        Dockerfile: '$(Build.SourcesDirectory)/Application/Dockerfile'
+        buildContext: '$(Build.SourcesDirectory)'
+        repository: 'health-monitoring-api'
         tags: |
           $(tag)
