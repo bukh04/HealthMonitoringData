@@ -26,7 +26,7 @@ stages:
         Dockerfile: '$(Build.SourcesDirectory)/Application/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)'
         tags: |
-         latest
+          latest
 
     - task: CopyFiles@2
       displayName: Copy Kubernetes manifests
