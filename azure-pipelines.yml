@@ -65,4 +65,4 @@ stages:
         namespace: 'default'
         command: 'apply'
         useConfigurationFile: true
-        configuration: '$(Pipeline.Workspace)/drop/k8s/*.yaml'
+        configuration: '$(System.DefaultWorkingDirectory)/drop/k8s/application.yaml'
