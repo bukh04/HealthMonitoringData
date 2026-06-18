@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
       - name: application
-        image: docker.io/library/health-monitoring-api:latest
-        imagePullPolicy: Never
+        image: vlbu0001/health-monitoring-api:latest
+        imagePullPolicy: Always
         env:
         - name: ConnectionStrings__DefaultConnection
           valueFrom:
