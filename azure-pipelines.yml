@@ -18,14 +18,15 @@ stages:
 
     steps:
     - task: Docker@2
-      displayName: Build API image
+      displayName: Build and push API image
       inputs:
-        command: build
+        command: buildAndPush
+        containerRegistry: 'acr-hmsacrstudent001'
+        repository: 'health-monitoring-api'
         Dockerfile: '$(Build.SourcesDirectory)/Application/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)'
-        repository: 'health-monitoring-api'
         tags: |
-          $(tag)
+         latest
 
     - task: CopyFiles@2
       displayName: Copy Kubernetes manifests
