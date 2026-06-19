@@ -28,10 +28,29 @@ stages:
         tags: |
           latest
 
+    - task: Docker@2
+      displayName: Build and push Worker image
+      inputs:
+        command: buildAndPush
+        containerRegistry: 'acr-hmsacrstudent001'
+        repository: 'health-monitoring-worker'
+        Dockerfile: '$(Build.SourcesDirectory)/Worker/Dockerfile'
+        buildContext: '$(Build.SourcesDirectory)'
+        tags: |
+          latest
+
     - task: CopyFiles@2
       displayName: Copy Kubernetes manifests
       inputs:
         SourceFolder: '$(Build.SourcesDirectory)/Application'
+        Contents: |
+          *.yaml
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/k8s'
+
+    - task: CopyFiles@2
+      displayName: Copy Worker Kubernetes manifests
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/Worker'
         Contents: |
           *.yaml
         TargetFolder: '$(Build.ArtifactStagingDirectory)/k8s'
@@ -56,11 +75,6 @@ stages:
     - download: current
       artifact: drop
 
-    - script: |
-        pwd
-        find . -name "application.yaml"
-      displayName: Find yaml
-
     - task: Kubernetes@1
       displayName: Apply Kubernetes manifests
       inputs:
@@ -72,3 +86,15 @@ stages:
         command: 'apply'
         useConfigurationFile: true
         configuration: '$(Pipeline.Workspace)/drop/k8s/application.yaml'
+
+    - task: Kubernetes@1
+      displayName: Apply Worker manifest
+      inputs:
+        connectionType: 'Azure Resource Manager'
+        azureSubscriptionEndpoint: 'AzureStudentConnection'
+        azureResourceGroup: 'rg-aks-cluster'
+        kubernetesCluster: 'aks-cluster'
+        namespace: 'default'
+        command: 'apply'
+        useConfigurationFile: true
+        configuration: '$(Pipeline.Workspace)/drop/k8s/worker.yaml'       
