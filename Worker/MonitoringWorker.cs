@@ -13,11 +13,14 @@ public class MonitoringWorker : BackgroundService
 
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 	{
-		using var scope = _serviceProvider.CreateScope();
+		while (!stoppingToken.IsCancellationRequested)
+		{
+			using var scope = _serviceProvider.CreateScope();
+			var monitoringService = scope.ServiceProvider.GetRequiredService<MonitoringService>();
+			await monitoringService.MonitorSites();
 
-		var monitoringService = scope.ServiceProvider
-			.GetRequiredService<MonitoringService>();
-
-		await monitoringService.MonitorSites();
+			var interval = int.Parse(Environment.GetEnvironmentVariable("JOB_INTERVAL_SEC") ?? "60");
+			await Task.Delay(TimeSpan.FromSeconds(interval), stoppingToken);
+		}
 	}
 }
