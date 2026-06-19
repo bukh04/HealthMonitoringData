@@ -8,7 +8,6 @@ WORKDIR /app
 COPY Worker/*.csproj ./Worker/
 COPY Application/*.csproj ./Application/
 COPY Data/*.csproj ./Data/
-COPY Entities/*.csproj ./Entities/
 
 RUN dotnet restore "./Worker/Worker.csproj"
 
