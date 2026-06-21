@@ -52,7 +52,8 @@ namespace Application.Services
 						Status = "ERROR",
 						StatusCode = null,
 						Message = ex.Message,
-						CreatedAt = startedAt
+						CreatedAt = startedAt,
+						Site = site
 					};
 
 					await _incidentService.AddIncident(incidentAudit);
