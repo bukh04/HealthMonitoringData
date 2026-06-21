@@ -26,7 +26,7 @@ namespace Application.Services
 				try
 				{
 					var normalizedUrl = NormalizeUrl(site.Url);
-					using var response = await _httpClient.GetAsync(site.Url);
+					using var response = await _httpClient.GetAsync(normalizedUrl);
 
 					var incidentAudit = new IncidentAudit
 					{
