@@ -15,9 +15,9 @@ namespace Application.Services
 			_incidentService = incidentService;
 		}
 
-		public async Task MonitorSites()
+		public async Task MonitorSitesAsync()
 		{
-			var sites = await _siteService.GetAllSites();
+			var sites = await _siteService.GetAllSitesAsync();
 
 			foreach (var site in sites.Where(x => x.IsActive))
 			{
@@ -38,11 +38,11 @@ namespace Application.Services
 						Site = site
 					};
 
-					await _incidentService.AddIncident(incidentAudit);
+					await _incidentService.AddIncidentAsync(incidentAudit);
 
 					site.LastCheckedAt = startedAt;
 
-					await _siteService.UpdateSite(site);
+					await _siteService.UpdateSiteAsync(site);
 				}
 				catch (Exception ex)
 				{
@@ -56,10 +56,10 @@ namespace Application.Services
 						Site = site
 					};
 
-					await _incidentService.AddIncident(incidentAudit);
+					await _incidentService.AddIncidentAsync(incidentAudit);
 
 					site.LastCheckedAt = startedAt;
-					await _siteService.UpdateSite(site);
+					await _siteService.UpdateSiteAsync(site);
 				}
 			}
 		}

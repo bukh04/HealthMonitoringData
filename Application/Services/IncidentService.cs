@@ -12,12 +12,12 @@ namespace Application.Services
 			_dbContext = dbContext;
 		}
 
-		public async Task<List<IncidentAudit>> GetAllIncidents()
+		public async Task<List<IncidentAudit>> GetAllIncidentsAsync()
 		{
 			return await _dbContext.IncidentAudit.Include(x => x.Site).ToListAsync();
 		}
 
-		public async Task AddIncident(IncidentAudit incident)
+		public async Task AddIncidentAsync(IncidentAudit incident)
 		{
 			_dbContext.IncidentAudit.Add(incident);
 			await _dbContext.SaveChangesAsync();

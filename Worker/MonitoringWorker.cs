@@ -17,7 +17,7 @@ public class MonitoringWorker : BackgroundService
 		{
 			using var scope = _serviceProvider.CreateScope();
 			var monitoringService = scope.ServiceProvider.GetRequiredService<MonitoringService>();
-			await monitoringService.MonitorSites();
+			await monitoringService.MonitorSitesAsync();
 
 			var interval = int.Parse(Environment.GetEnvironmentVariable("JOB_INTERVAL_SEC") ?? "60");
 			await Task.Delay(TimeSpan.FromSeconds(interval), stoppingToken);

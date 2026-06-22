@@ -16,10 +16,9 @@ namespace Application.Controllers
 		}
 
 		[HttpGet]
-		public  Task<List<IncidentAudit>> GetAllIncidents()
+		public async Task<List<IncidentAudit>> GetAllIncidents()
 		{
-			return _incidentService.GetAllIncidents();
+			return  await _incidentService.GetAllIncidentsAsync();
 		}
-
 	}
 }

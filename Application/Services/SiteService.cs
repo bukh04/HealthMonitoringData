@@ -13,29 +13,29 @@ namespace Application.Services
 			_dbContext = dbContext;
 		}
 
-		public async Task<List<Site>> GetAllSites()
+		public async Task<List<Site>> GetAllSitesAsync()
 		{
 			return await _dbContext.Site.ToListAsync();
 		}
 
-		public async Task DeleteSiteById(int id)
+		public async Task<bool> DeleteSiteByIdAsync(int id)
 		{
 			var site = await _dbContext.Site.FindAsync(id);
-			if (site != null)
-			{
-				_dbContext.Site.Remove(site);
-				await _dbContext.SaveChangesAsync();
-			}
+			if (site == null) return false;
+
+			_dbContext.Site.Remove(site);
+			await _dbContext.SaveChangesAsync();
+			return true;
 		}
 
-		public async Task<Site> AddSite(Site site)
+		public async Task<Site> AddSiteAsync(Site site)
 		{
 			_dbContext.Site.Add(site);
 			await _dbContext.SaveChangesAsync();
 			return site;
 		}
 
-		public async Task UpdateSite(Site site)
+		public async Task UpdateSiteAsync(Site site)
 		{
 			_dbContext.Site.Update(site);
 			await _dbContext.SaveChangesAsync();

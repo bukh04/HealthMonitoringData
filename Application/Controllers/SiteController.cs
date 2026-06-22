@@ -17,33 +17,30 @@ namespace Application.Controllers
 		}
 
 		[HttpGet]
-		public Task <List<Site>> GetAllSites()
+		public async Task<List<Site>> GetAllSites()
 		{
-			return _siteService.GetAllSites();
+			return await _siteService.GetAllSitesAsync();
 		}
 
 		[HttpDelete("{id}")] 
-		public Task<IActionResult> DeleteSiteById(int id)
+		public async Task<IActionResult> DeleteSiteById(int id)
 		{
-			var result = _siteService.DeleteSiteById(id);
+			var result = await _siteService.DeleteSiteByIdAsync(id);
+			if (!result) 
+				return NotFound();
 
-			if (result == null)
-			{
-				return Task.FromResult<IActionResult>(NotFound());
-			}
-
-			return Task.FromResult<IActionResult>(Ok(result));
+			return Ok();
 		}
 
 		[HttpPost]
-		public Task<Site> AddSite(Site site)
+		public async Task<Site> AddSite(Site site)
 		{
 			if (string.IsNullOrEmpty(site.Name) || string.IsNullOrEmpty(site.Url))
 			{
 				throw new ArgumentException("Site name and URL cannot be empty.");
 			}
 
-			return _siteService.AddSite(site);
+			return await _siteService.AddSiteAsync(site);
 		}
 	}
 }
