@@ -22,13 +22,14 @@ namespace Application.Services
 			foreach (var site in sites.Where(x => x.IsActive))
 			{
 				var startedAt = DateTime.UtcNow;
+				IncidentAudit incidentAudit;
 
 				try
 				{
 					var normalizedUrl = NormalizeUrl(site.Url);
 					using var response = await _httpClient.GetAsync(normalizedUrl);
 
-					var incidentAudit = new IncidentAudit
+					incidentAudit = new IncidentAudit
 					{
 						SiteId = site.Id,
 						Status = response.IsSuccessStatusCode ? "Ok" : "Down",
@@ -37,16 +38,10 @@ namespace Application.Services
 						CreatedAt = startedAt,
 						Site = site
 					};
-
-					await _incidentService.AddIncidentAsync(incidentAudit);
-
-					site.LastCheckedAt = startedAt;
-
-					await _siteService.UpdateSiteAsync(site);
 				}
 				catch (Exception ex)
 				{
-					var incidentAudit = new IncidentAudit
+					incidentAudit = new IncidentAudit
 					{
 						SiteId = site.Id,
 						Status = "ERROR",
@@ -55,12 +50,12 @@ namespace Application.Services
 						CreatedAt = startedAt,
 						Site = site
 					};
-
-					await _incidentService.AddIncidentAsync(incidentAudit);
-
-					site.LastCheckedAt = startedAt;
-					await _siteService.UpdateSiteAsync(site);
 				}
+				await _incidentService.AddIncidentAsync(incidentAudit);
+
+				site.LastCheckedAt = startedAt;
+
+				await _siteService.UpdateSiteAsync(site);
 			}
 		}
 
